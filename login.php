@@ -1,32 +1,31 @@
 <?php
-session_start();
-require_once 'auth_functions.php';
+session_start(); // Nachinaem sessiyu
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Validate input
-    $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
-    $password = $_POST['password'];
-    
-    // Validate inputs
-    if (empty($email) || empty($password)) {
-        $_SESSION['error'] = 'Email and password are required';
-        header('Location: index.php?tab=login');
-        exit();
+require_once 'auth_functions.php'; // Podklyuchayem funktsii dlya avtorizatsii
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') { // Esli zapros POST
+    // Validatsiya vvedennykh dannykh
+    $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL); // Otrezayem vse ne nuzhnye simvoly v email
+    $password = $_POST['password']; // Parol'
+
+    // Proverka, chto vse pole zapolneno
+    if (empty($email) || empty($password)) { // Esli odno iz poley pusto
+        $_SESSION['error'] = 'Email and password are required'; // Sohranenie oshibki
+        header('Location: index.php?tab=login'); // Perehod na stranitsu login
+        exit(); // Zavershenie skrypta
     }
-    
-    // Attempt login
-    $result = loginUser($email, $password);
-    
-    if ($result['success']) {
-        // Store user info in session
-        $_SESSION['user'] = $result['user'];
-        
-        // Redirect to dashboard
-        header('Location: dashboard.php');
-        exit();
-    } else {
-        $_SESSION['error'] = $result['message'];
-        header('Location: index.php?tab=login');
-        exit();
+
+    // Popytka avtorizatsii
+    $result = loginUser($email, $password); // Vyzyvayem funktsiyu dlya avtorizatsii
+
+    if ($result['success']) { // Esli avtorizatsiya udalas'
+        $_SESSION['user'] = $result['user']; // Sohranenie dannykh pol'zovatelya v sessii
+        header('Location: dashboard.php'); // Perehod na dashbord
+        exit(); // Zavershenie skrypta
+    } else { // Esli avtorizatsiya ne udalas'
+        $_SESSION['error'] = $result['message']; // Sohranenie soobshcheniya ob oshibke
+        header('Location: index.php?tab=login'); // Perehod nazad na login stranitsu
+        exit(); // Zavershenie skrypta
     }
 }
+?>

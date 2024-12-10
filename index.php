@@ -1,9 +1,10 @@
 <?php
 
-session_start();
-require_once 'auth_functions.php';
+session_start(); // Nachinaem sessiyu
 
-// Determine which tab to show
+require_once 'auth_functions.php'; // Podklyuchayem funktsii dlya autentifikatsii
+
+// Opredelyaem, kotoruyu vkladku pokazyvat'
 $activeTab = isset($_GET['tab']) && $_GET['tab'] === 'register' ? 'register' : 'login';
 ?>
 <!DOCTYPE html>
@@ -23,7 +24,7 @@ $activeTab = isset($_GET['tab']) && $_GET['tab'] === 'register' ? 'register' : '
                     <div class="alert alert-danger" role="alert">
                         <?php 
                         echo $_SESSION['error']; 
-                        unset($_SESSION['error']);
+                        unset($_SESSION['error']); // Ochishchaem soobshchenie ob oshibke
                         ?>
                     </div>
                 <?php endif; ?> 
@@ -32,7 +33,7 @@ $activeTab = isset($_GET['tab']) && $_GET['tab'] === 'register' ? 'register' : '
                     <div class="alert alert-success" role="alert">
                         <?php 
                         echo $_SESSION['success']; 
-                        unset($_SESSION['success']);
+                        unset($_SESSION['success']); // Ochishchaem soobshchenie ob uspekhe
                         ?>
                     </div>
                 <?php endif; ?>

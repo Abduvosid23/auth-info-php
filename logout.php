@@ -1,5 +1,5 @@
 <?php
-session_start();
-session_destroy(); // Destroy all session data
-header('Location: index.php'); // Redirect to login page
-exit();
+session_start(); // Nachinaem sessiyu
+session_destroy(); // Udalyaem vse dannye sessii
+header('Location: index.php'); // Perehodim na stranitsu logina
+exit(); // Zavershayem skrypt
